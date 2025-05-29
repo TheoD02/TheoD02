@@ -1,0 +1,23 @@
+name: 📄 Update Profile README
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 6 * * *'   # Runs every day at 06:00 UTC
+
+jobs:
+  publish:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: Generate README.md
+      uses: teoxoy/profile-readme-stats@v3
+      with:
+        token: ${{ secrets.USER_TOKEN }}
+    - uses: jamesgeorge007/github-activity-readme@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
